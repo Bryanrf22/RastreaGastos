@@ -11,14 +11,21 @@
 
         private void OnCounterClicked(object sender, EventArgs e)
         {
-            count++;
+        }
 
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
-            else
-                CounterBtn.Text = $"Clicked {count} times";
+        private void OnEliminarGasto(object sender, EventArgs e)
+        {
 
-            SemanticScreenReader.Announce(CounterBtn.Text);
+        }
+
+        private void OnEditarGasto(object sender, EventArgs e)
+        {
+
+        }
+
+        private void OnAgregarGasto(object sender, EventArgs e)
+        {
+
         }
     }
 
