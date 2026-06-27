@@ -7,15 +7,15 @@ namespace RastreaGastos;
 
 public partial class GastoPage : ContentPage
 {
-	private readonly Gastos? _gasto;
+	private readonly Gastos _gasto;
 	private readonly DataBase _dbService;
 	public GastoPage(DataBase dbService, Gastos? gasto = null)
 	{
 		InitializeComponent();
 		_dbService = dbService;
-		_gasto = gasto;
+		_gasto = gasto ?? new Gastos();
 
-		if (_gasto != null)
+		if (gasto != null)
 		{
 			entryDesc.Text = _gasto.Descripcion;
 			entryMonto.Text = _gasto.Monto.ToString();
@@ -30,8 +30,8 @@ public partial class GastoPage : ContentPage
 			await DisplayAlert("Error", "Por favor, llene todos los campos con informacion valida.", "Aceptar");
 			return;
 		}
-		_gasto!.Descripcion = entryDesc.Text;
-		_gasto!.Monto = monto;
+		_gasto.Descripcion = entryDesc.Text;
+		_gasto.Monto = monto;
 		if (_gasto.ID == 0)
 		{
 			await _dbService.AgregarGastoAsync(_gasto);

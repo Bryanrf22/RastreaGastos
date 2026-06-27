@@ -15,7 +15,6 @@ namespace RastreaGastos
             InitializeComponent();
             _db = db;
             ListaGastos.ItemsSource = _gasto;
-            _ = Task.Run(async () => await CargarGastosAsync());
         }
 
         protected override async void OnAppearing()
@@ -26,7 +25,6 @@ namespace RastreaGastos
 
         public async Task CargarGastosAsync(string? filtro = null)
         {
-            _gasto.Clear();
             var gastos = await _db.LeerGastosAsync(filtro);
             if (!string.IsNullOrWhiteSpace(filtro))
             {
@@ -38,7 +36,7 @@ namespace RastreaGastos
                 _gasto.Clear();
                 foreach (var gst in gastos)
                 {
-                    gastos.Add(gst);
+                    _gasto.Add(gst);
                 }
             });
         }

@@ -3,34 +3,35 @@
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
             x:Class="RastreaGastos.MainPage">
 
-    <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="15">
-            <Grid RowDefinitions="Auto, *, Auto" RowSpacing="5" Padding="10">
-                <SearchBar x:Name="Busqueda" Placeholder="Buscar gasto..." TextChanged="OnSearchTextChanged">
-                </SearchBar>
-                <CollectionView x:Name="ListaGastos" Grid.Row="1" SelectionMode="Single">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid Padding="8">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <StackLayout>
-                                    <Label Text="{Binding Descripcion}" FontAttributes="Bold" FontSize="16"></Label>
-                                    <Label Text="{Binding Monto, StringFormat='${0:C}'}" FontSize="14"></Label>
-                                </StackLayout>
-                                <Button Text="Eliminar" Clicked="OnEliminarGasto" Grid.Column="1" Background="#DC2626" TextColor="White"></Button>
-                                <Button Text="Editar" Clicked="OnEditarGasto" Grid.Column="2" Background="#3B82F6" TextColor="White"></Button>
-                            </Grid>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-                <HorizontalStackLayout>
-                    <Button Text="Agregar Gasto" Clicked="OnAgregarGasto" Grid.Row="2" Background="#10B981" TextColor="White"></Button>
-                </HorizontalStackLayout>
-            </Grid>
-        </VerticalStackLayout>
-    </ScrollView>
+    <Grid RowDefinitions="Auto, Auto, *" RowSpacing="10" Padding="20">
+        <SearchBar x:Name="Busqueda" Placeholder="Buscar gasto..." TextChanged="OnSearchTextChanged" />
+
+        <Button
+            Grid.Row="1"
+            Text="Agregar Gasto"
+            Clicked="OnAgregarGasto"
+            Background="#10B981"
+            TextColor="White" />
+
+        <CollectionView x:Name="ListaGastos" Grid.Row="2" SelectionMode="Single">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Padding="8" ColumnSpacing="8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackLayout>
+                            <Label Text="{Binding Descripcion}" FontAttributes="Bold" FontSize="16"></Label>
+                            <Label Text="{Binding Monto, StringFormat='${0:C}'}" FontSize="14"></Label>
+                        </StackLayout>
+                        <Button Text="Eliminar" Clicked="OnEliminarGasto" Grid.Column="1" Background="#DC2626" TextColor="White"></Button>
+                        <Button Text="Editar" Clicked="OnEditarGasto" Grid.Column="2" Background="#3B82F6" TextColor="White"></Button>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
 
 </ContentPage>

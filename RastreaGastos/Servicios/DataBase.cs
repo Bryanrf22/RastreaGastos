@@ -12,10 +12,11 @@ namespace RastreaGastos.Servicios
     {
         private readonly string _databasePath;
         private readonly string _connectioString;
+        private Task? _iniciarTask;
 
         public DataBase()
         {
-            _databasePath = Path.Combine(FileSystem.AppDataDirectory, "DB_Gastos.db3");
+            _databasePath = Path.Combine(FileSystem.AppDataDirectory, "gastos.db3");
             _connectioString = new SqliteConnectionStringBuilder
             {
                 DataSource = _databasePath
@@ -25,6 +26,11 @@ namespace RastreaGastos.Servicios
         //crear tabla en caso de que no exista
         public Task IniciarBDAsync()
         {
+            return _iniciarTask ??= CrearBDAsync();
+        }
+
+        private Task CrearBDAsync()
+        {
             return Task.Run(() =>
             {
                 using var connection = new SqliteConnection(_connectioString);
@@ -32,24 +38,26 @@ namespace RastreaGastos.Servicios
                 var tableCommand = connection.CreateCommand();
                 tableCommand.CommandText =
                 @"CREATE TABLE IF NOT EXISTS Gastos (
-                    ID INTEGER PRIMARY KEY AUTOINCREMENT,
-                    Descripcion VARCHAR(200) NOT NULL,
-                    Monto REAL NOT NULL,
-                    Fecha DATE DEFAULT GETDATE()
+                    ID INTEGER PRIMARY KEY AUTOINCREMENT ,
+                    Descripcion TEXT NOT NULL ,
+                    Monto REAL NOT NULL ,
+                    Fecha TEXT DEFAULT CURRENT_TIMESTAMP
                 );";
                 tableCommand.ExecuteNonQuery();
             });
         }
 
-        public Task<List<Gastos>> LeerGastosAsync(string filtro)
+        public async Task<List<Gastos>> LeerGastosAsync(string? filtro)
         {
-            return Task.Run(() =>
+            await IniciarBDAsync();
+
+            return await Task.Run(() =>
             {
                 var gastos = new List<Gastos>();
                 using var connection = new SqliteConnection(_connectioString);
                 connection.Open();
                 var selectCommand = connection.CreateCommand();
-                selectCommand.CommandText = @"SELECT * FROM Gastos";
+                selectCommand.CommandText = @"SELECT ID, Descripcion, Monto, Fecha FROM Gastos";
                 using var reader = selectCommand.ExecuteReader();
                 while (reader.Read())
                 {
@@ -65,9 +73,11 @@ namespace RastreaGastos.Servicios
             });
         }
 
-        public Task<int> AgregarGastoAsync(Gastos gastos)
+        public async Task<int> AgregarGastoAsync(Gastos gastos)
         {
-            return Task.Run(() =>
+            await IniciarBDAsync();
+
+            return await Task.Run(() =>
             {
                 using var connection = new SqliteConnection(_connectioString);
                 connection.Open();
@@ -80,9 +90,11 @@ namespace RastreaGastos.Servicios
             });
         }
 
-        public Task<int> ActualizarGastoAsync(Gastos gastos)
+        public async Task<int> ActualizarGastoAsync(Gastos gastos)
         {
-            return Task.Run(() =>
+            await IniciarBDAsync();
+
+            return await Task.Run(() =>
             {
                 using var connection = new SqliteConnection(_connectioString);
                 connection.Open();
@@ -96,9 +108,11 @@ namespace RastreaGastos.Servicios
             });
         }
 
-        public Task<int> EliminarGastoAsync(int id)
+        public async Task<int> EliminarGastoAsync(int id)
         {
-            return Task.Run(() =>
+            await IniciarBDAsync();
+
+            return await Task.Run(() =>
             {
                 using var connection = new SqliteConnection(_connectioString);
                 connection.Open();
