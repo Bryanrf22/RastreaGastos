@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="RastreaGastos.GastoPage"
-             Title="Formulario Gasto">
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            x:Class="RastreaGastos.GastoPage"
+            Title="Formulario Gasto">
     <VerticalStackLayout Padding="12" Spacing="10">
+        <Entry x:Name="entryDesc" Placeholder="Descripción del gasto..."></Entry>
+        <Entry x:Name="entryMonto" Placeholder="Monto del gasto..." Keyboard="Numeric"></Entry>
+        <HorizontalStackLayout Spacing="10">
+            <Button Text="Guardar" Clicked="OnGuardarClicked" BackgroundColor="#FF026802" TextColor="White"></Button>
+            <Button Text="Cancelar" Clicked="OnCancelarClicked" BackgroundColor="#FFB10404" TextColor="White"></Button>
+        </HorizontalStackLayout>
     </VerticalStackLayout>
 </ContentPage>
