@@ -61,14 +61,17 @@ namespace RastreaGastos
             }
         }
 
-        private void OnEditarGasto(object sender, EventArgs e)
+        private async void OnEditarGasto(object sender, EventArgs e)
         {
-
+            if (sender is Button btn&&btn.BindingContext is Gastos gst)
+            {
+                await Navigation.PushAsync(new GastoPage(_db, gst));
+            }
         }
 
-        private void OnAgregarGasto(object sender, EventArgs e)
+        private async void OnAgregarGasto(object sender, EventArgs e)
         {
-
+            await Navigation.PushAsync(new GastoPage(_db));
         }
 
         private async void OnSearchTextChanged(object sender, TextChangedEventArgs e)
